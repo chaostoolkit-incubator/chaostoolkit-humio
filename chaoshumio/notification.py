@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime, timezone
+import platform
 from typing import Any, Dict
 
 from chaoslib.types import EventPayload
 from logzero import logger
 import requests
-import platform
 
 
 __all__ = ["notify"]
