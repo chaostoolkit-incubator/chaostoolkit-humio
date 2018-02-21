@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime, timezone
 from typing import Any, Dict
 
 from chaoslib.types import EventPayload
 from logzero import logger
 import requests
 import platform
+
 
 __all__ = ["notify"]
 
@@ -24,6 +26,8 @@ def notify(settings: Dict[str, Any], event: EventPayload):
 
     token = settings.get("token")
     dataspace = settings.get("dataspace")
+    isotimestamp = datetime.fromtimestamp(
+        event["ts"], timezone.utc).isoformat()
 
     if not token:
         logger.debug("Humio notifier requires a token")
@@ -44,20 +48,20 @@ def notify(settings: Dict[str, Any], event: EventPayload):
     }
 
     host = platform.node()
-    payload = [ { 
+    payload = [{
         "tags": {
             "host": host
         },
         "events": [
             {
-                "timestamp": event["ts"],
+                "timestamp": isotimestamp,
                 "attributes": event["payload"]
             },
         ]
-    } ]
+    }]
 
     r = requests.post(url, headers=headers, json=payload, timeout=(2, 10))
     if r.status_code > 399:
         logger.debug(
-            "Failed to post to Humio with status code of {status} with" \
+            "Failed to post to Humio with status code of {status} with"
             " reason: {reason}".format(status=r.status_code, reason=r.text))

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime, timezone
 import time
 import types
 from unittest.mock import MagicMock, patch
@@ -15,8 +16,11 @@ def test_notify():
     payload = {
         "msg": "hello"
     }
+    timestamp = time.time()
+    isotimestamp = datetime.fromtimestamp(timestamp, timezone.utc).isoformat()
+
     event_payload = {
-        "ts": str(time.time()),
+        "ts": timestamp,
         "event": str(RunFlowEvent.RunStarted),
         "phase": "run",
         "payload": payload
@@ -31,7 +35,7 @@ def test_notify():
                 },
                 "events": [
                     {
-                        "timestamp": event_payload["ts"],
+                        "timestamp": isotimestamp,
                         "attributes": payload
                     },
                 ]
