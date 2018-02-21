@@ -1,0 +1,4 @@
+coverage
+pytest>=2.8
+pytest-cov
+pytest-sugar
