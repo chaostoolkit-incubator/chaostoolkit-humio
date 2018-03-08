@@ -39,7 +39,7 @@ notifications:
   -
     type: plugin
     module: chaoshumio.notification
-    space: my-space
+    dataspace: my-space
     token: my-token
 ```
 
@@ -52,7 +52,7 @@ notifications:
   -
     type: plugin
     module: chaoshumio.notification
-    space: my-space
+    dataspace: my-space
     token: my-token
     events:
       - run-failed
