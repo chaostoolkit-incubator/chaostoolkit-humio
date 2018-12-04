@@ -29,8 +29,16 @@ for an user with permissions to that space.
 
 ## Usage
 
-To use this extension, edit your [chaostoolkit settings][settings] by adding the
-following payload:
+This extension can be used a control on the experiment or a notification
+plugin of the Chaos Toolkit CLI itself. Usually, only one of these two methods
+is used at any given time as they serve similar purpose but feel free to
+combine them. The control approach is deeper because it logs down to the
+activity whereas notifications are much higher level.
+
+### Notification
+
+To use this extension to push notifications, edit your
+[chaostoolkit settings][settings] by adding the following payload:
 
 [settings]: http://chaostoolkit.org/reference/usage/settings/
 
@@ -60,6 +68,43 @@ notifications:
 ```
 
 Only sends those two events.
+
+### Control
+
+To use this extension as a control over the experiment and send logs during
+the execution of the experiment, add the following payload to your experiment:
+
+```json
+{
+    "secrets": {
+        "humio": {
+            "token": {
+                "type": "env",
+                "key": "HUMIO_INGEST_TOKEN"
+            },
+            "dataspace": {
+                "type": "env",
+                "key": "HUMIO_DATASPACE"
+            }
+        }
+    },
+    "controls": [
+        {
+            "name": "humio-logger",
+            "provider": {
+                "type": "python",
+                "module": "chaoshumio.control",
+                "secrets": ["humio"]
+            }
+        }
+    ]
+}
+```
+
+This will ensure the results of the experiment, steady-state, method, rollbacks
+and each activity are sent to your space. The experiment itself will also be
+send initially.
+
 
 ## Test
 
