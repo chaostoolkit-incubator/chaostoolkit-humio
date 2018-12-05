@@ -21,18 +21,19 @@ def configure_control(configuration: Configuration, secrets: Secrets):
     Enable logging to Humio if the `token` and `dataspace` are set in the
     `secrets` payload.
     """
-    token = secrets.get("token", "").strip()
+    token = secrets.get("humio", {}).get("token", "").strip()
     if not token:
         logger.debug("Missing Humio token secret")
         with_logging.enabled = False
         return
 
-    dataspace = secrets.get("dataspace", "").strip()
+    dataspace = secrets.get("humio", {}).get("dataspace", "").strip()
     if not dataspace:
         logger.debug("Missing Humio dataspace")
         with_logging.enabled = False
         return
 
+    logger.debug("Humio logging control is active for this session")
     with_logging.enabled = True
 
 
