@@ -2,7 +2,20 @@
 
 ## [Unreleased][]
 
-[Unreleased]: https://github.com/chaostoolkit-incubator/chaostoolkit-humio/compare/0.2.0...HEAD
+[Unreleased]: https://github.com/chaostoolkit-incubator/chaostoolkit-humio/compare/0.3.0...HEAD
+
+## [0.3.0][] - 2018-12-05
+
+[0.3.0]: https://github.com/chaostoolkit-incubator/chaostoolkit-humio/compare/0.2.0...0.3.0
+
+### Changed
+
+-   Fix secrets loading
+
+### Added
+
+-   Add more metadata to control event
+
 
 ## [0.2.0][] - 2018-12-04
 
