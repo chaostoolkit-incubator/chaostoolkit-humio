@@ -29,8 +29,10 @@ def test_push_context_to_humio():
         "context": context
     }
     secrets = {
-        "token": "1234",
-        "dataspace": "default"
+        "humio": {
+            "token": "1234",
+            "dataspace": "default"
+        }
     }
 
     configure_control(None, secrets)
@@ -48,13 +50,18 @@ def test_push_context_to_humio():
                 ]
             } ]
         )
-        push_to_humio(event, secrets)
+        push_to_humio(event, secrets["humio"])
 
         assert m.called
         payload = m.last_request.json()[0]
         assert "tags" in payload
         assert payload["tags"] == {
+            "chaosengineering": "true",
             'host': node, 'level': 'an-event',
+            "platform": platform.platform(),
+            "python": platform.python_version(),
+            "system": platform.system(),
+            "machine": platform.machine(),
             'provider': 'chaostoolkit', 'type': 'experiment'
         }
         assert payload["events"][0]["attributes"] == context
@@ -79,10 +86,11 @@ def test_push_state_to_humio():
         "state": state
     }
     secrets = {
-        "token": "1234",
-        "dataspace": "default"
+        "humio": {
+            "token": "1234",
+            "dataspace": "default"
+        }
     }
-
     configure_control(None, secrets)
     assert with_logging.enabled is True
     with requests_mock.mock() as m:
@@ -94,17 +102,22 @@ def test_push_state_to_humio():
                     {
                         "timestamp": isotimestamp,
                         "attributes": state
-                    },
+                    }
                 ]
             } ]
         )
-        push_to_humio(event, secrets)
+        push_to_humio(event, secrets["humio"])
 
         assert m.called
         payload = m.last_request.json()[0]
         assert "tags" in payload
         assert payload["tags"] == {
+            "chaosengineering": "true",
             'host': node, 'level': 'an-event',
+            "platform": platform.platform(),
+            "python": platform.python_version(),
+            "system": platform.system(),
+            "machine": platform.machine(),
             'provider': 'chaostoolkit', 'type': 'experiment'
         }
         assert payload["events"][0]["attributes"] == state
@@ -129,9 +142,10 @@ def test_logger_disabled_when_missing_token():
         "state": state
     }
     secrets = {
-        "dataspace": "default"
+        "humio": {
+            "dataspace": "default"
+        }
     }
-
     configure_control(None, secrets)
     assert with_logging.enabled is False
     with requests_mock.mock() as m:
@@ -147,7 +161,7 @@ def test_logger_disabled_when_missing_token():
                 ]
             } ]
         )
-        push_to_humio(event, secrets)
+        push_to_humio(event, secrets["humio"])
         assert m.called is False
 
 
@@ -170,7 +184,9 @@ def test_logger_disabled_when_missing_dataspace():
         "state": state
     }
     secrets = {
-        "token": "123"
+        "humio": {
+            "token": "123"
+        }
     }
 
     configure_control(None, secrets)
@@ -188,5 +204,5 @@ def test_logger_disabled_when_missing_dataspace():
                 ]
             } ]
         )
-        push_to_humio(event, secrets)
+        push_to_humio(event, secrets["humio"])
         assert m.called is False

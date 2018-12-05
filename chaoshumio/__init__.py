@@ -55,6 +55,11 @@ def push_to_humio(event: EventPayload, secrets: Secrets):
         "tags": {
             "host": host,
             "level": event["name"],
+            "chaosengineering": "true",
+            "platform": platform.platform(),
+            "python": platform.python_version(),
+            "system": platform.system(),
+            "machine": platform.machine(),
             "provider": "chaostoolkit",
             "type": event.get("type", "experiment")
         },
@@ -80,4 +85,5 @@ def push_to_humio(event: EventPayload, secrets: Secrets):
     if r.status_code > 399:
         logger.debug(
             "Failed to post to Humio with status code of {status} with"
-            " reason: {reason}".format(status=r.status_code, reason=r.text))
+            " reason: {reason}".format(
+                status=r.status_code, reason=r.text))
