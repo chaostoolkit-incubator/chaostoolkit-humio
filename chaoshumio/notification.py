@@ -50,7 +50,13 @@ def notify(settings: Dict[str, Any], event: EventPayload):
     host = platform.node()
     payload = [{
         "tags": {
-            "host": host
+            "host": host,
+            "platform": platform.platform(),
+            "python": platform.python_version(),
+            "system": platform.system(),
+            "machine": platform.machine(),
+            "provider": "chaostoolkit",
+            "chaosengineering": "true"
         },
         "events": [
             {
