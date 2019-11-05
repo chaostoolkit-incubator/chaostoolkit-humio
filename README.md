@@ -40,7 +40,7 @@ activity whereas notifications are much higher level.
 To use this extension to push notifications, edit your
 [chaostoolkit settings][settings] by adding the following payload:
 
-[settings]: http://chaostoolkit.org/reference/usage/settings/
+[settings]: https://docs.chaostoolkit.org/reference/usage/cli/#configure-the-chaos-toolkit
 
 ```yaml
 notifications:
