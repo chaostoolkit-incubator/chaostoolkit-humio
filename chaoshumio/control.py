@@ -27,12 +27,6 @@ def configure_control(configuration: Configuration, secrets: Secrets):
         with_logging.enabled = False
         return
 
-    dataspace = secrets.get("humio", {}).get("dataspace", "").strip()
-    if not dataspace:
-        logger.debug("Missing Humio dataspace")
-        with_logging.enabled = False
-        return
-
     logger.debug("Humio logging control is active for this session")
     with_logging.enabled = True
 

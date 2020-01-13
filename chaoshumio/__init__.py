@@ -42,7 +42,7 @@ def push_to_humio(event: EventPayload, secrets: Secrets,
         timezone.utc).isoformat()
 
     token = token.strip()
-    url = "{}/api/v1/ingest/humio-ingest".format(
+    url = "{}/api/v1/ingest/humio-structured".format(
         humio_url)
 
     headers = {
