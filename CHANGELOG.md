@@ -2,7 +2,14 @@
 
 ## [Unreleased][]
 
-[Unreleased]: https://github.com/chaostoolkit-incubator/chaostoolkit-humio/compare/0.4.0...HEAD
+[Unreleased]: https://github.com/chaostoolkit-incubator/chaostoolkit-humio/compare/0.4.1...HEAD
+
+## [0.4.1][] - 2020-13-01
+
+### Fixed
+
+-   `dataspace` being checked by control on configuration
+-   URL incorrect for Humio API
 
 ## [0.4.0][] - 2020-13-01
 
