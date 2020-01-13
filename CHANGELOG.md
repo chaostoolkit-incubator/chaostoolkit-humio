@@ -4,6 +4,14 @@
 
 [Unreleased]: https://github.com/chaostoolkit-incubator/chaostoolkit-humio/compare/0.3.0...HEAD
 
+### Added
+
+-   Overriding of the Humio URL domain to support on-premise deployments of Humio.
+
+### Removed
+
+-   The need to specify the `dataspace`
+
 ## [0.3.0][] - 2018-12-05
 
 [0.3.0]: https://github.com/chaostoolkit-incubator/chaostoolkit-humio/compare/0.2.0...0.3.0

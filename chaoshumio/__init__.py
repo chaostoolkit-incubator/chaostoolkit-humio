@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime, timezone
-import os
-import os.path
 import platform
-from typing import Any, Dict
 
 from chaoslib.types import Configuration, EventPayload, Secrets
 from logzero import logger
@@ -13,37 +10,40 @@ __all__ = ["__version__", "push_to_humio"]
 __version__ = '0.3.0'
 
 
-def push_to_humio(event: EventPayload, secrets: Secrets):
+def push_to_humio(event: EventPayload, secrets: Secrets,
+                  configuration: Configuration = None):
     """
     Send the event payload to Humio
 
-    The `secrets` must contain `token` and `dataspace` properties. The former
-    is the Humio token and the latter is the space where to push the event to.
+    The `secrets` must contain a `token` property. The former
+    is the Humio token. If this property is missing then the function
+    will log a message and immediatley return.
 
-    If any of those two properties are missing, the function logs a message
-    and immediately returns.
+    Optionally the `configuration` can contain a `humio_url` entry. This will
+    override the default domain of your Humio service. The default is
+    https://cloud.humio.com.
 
     This function does not add any identifier to the payload, so make sure
-    the even has one if you need correlation.
+    the event has one if you need correlation.
     """
     token = secrets.get("token", "").strip()
     if not token:
         logger.debug("Missing Humio token secret")
         return
 
-    dataspace = secrets.get("dataspace", "").strip()
-    if not dataspace:
-        logger.debug("Missing Humio dataspace")
-        return
+    humio_url = "https://cloud.humio.com"
+    if configuration:
+        configured_humio_url = configuration.get("humio_url", "").strip()
+        if configured_humio_url:
+            humio_url = configured_humio_url
 
     isotimestamp = datetime.fromtimestamp(
         datetime.utcnow().replace(tzinfo=timezone.utc).timestamp(),
         timezone.utc).isoformat()
 
     token = token.strip()
-    dataspace = dataspace.strip()
-    url = "https://cloud.humio.com/api/v1/dataspaces/{}/ingest".format(
-        dataspace)
+    url = "{}/api/v1/ingest/humio-ingest".format(
+        humio_url)
 
     headers = {
         "Authorization": "Bearer {}".format(token),
