@@ -7,7 +7,7 @@ from logzero import logger
 import requests
 
 __all__ = ["__version__", "push_to_humio"]
-__version__ = '0.3.0'
+__version__ = '0.4.0'
 
 
 def push_to_humio(event: EventPayload, secrets: Secrets,
