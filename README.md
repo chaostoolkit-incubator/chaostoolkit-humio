@@ -1,6 +1,7 @@
 # chaostoolkit-humio
 
 [![Build Status](https://travis-ci.org/chaostoolkit-incubator/chaostoolkit-humio.svg?branch=master)](https://travis-ci.org/chaostoolkit-incubator/chaostoolkit-humio)
+[![Python versions](https://img.shields.io/pypi/pyversions/chaostoolkit-humio.svg)](https://www.python.org/)
 
 This project is an extension for the Chaos Toolkit to target [Humio][humio].
 
