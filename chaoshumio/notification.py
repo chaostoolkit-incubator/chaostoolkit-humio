@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime, timezone
 import platform
+from datetime import datetime, timezone
 from typing import Any, Dict
 
+import requests
 from chaoslib.types import EventPayload
 from logzero import logger
-import requests
-
 
 __all__ = ["notify"]
 
@@ -18,29 +17,29 @@ def notify(settings: Dict[str, Any], event: EventPayload):
     The settings must contain:
 
     - `"token"`: a slack API token
-    - `"url"`: the channel where to send this event notification
+    - `"humio_url"`: the Humio endpoint to send the event to
 
-    If one of these two attributes is missing, no notification is sent.
+    If token is missing, no notification is sent. If humio_url is not
+    specified then the default, https://cloud.humio.com, will be used.
 
     """
 
     token = settings.get("token")
-    dataspace = settings.get("dataspace")
     isotimestamp = datetime.fromtimestamp(
         event["ts"], timezone.utc).isoformat()
+    humio_url = settings.get("humio_url")
 
     if not token:
         logger.debug("Humio notifier requires a token")
         return
 
-    if not dataspace:
-        logger.debug("Humio notifier requires a dataspace")
-        return
+    if not humio_url:
+        logger.info("Falling back to default Humio URL")
+        humio_url = "https://cloud.humio.com"
 
     token = token.strip()
-    dataspace = dataspace.strip()
-    url = "https://cloud.humio.com/api/v1/dataspaces/{}/ingest".format(
-        dataspace)
+    url = "{}/api/v1/ingest/humio-ingest".format(
+        humio_url)
 
     headers = {
         "Authorization": "Bearer {}".format(token),

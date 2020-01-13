@@ -2,8 +2,8 @@
 import threading
 from typing import Any, Dict, List
 
-from chaoslib.types import Activity, Configuration, Experiment, Hypothesis, \
-    Journal, Run, Secrets
+from chaoslib.types import (Activity, Configuration, Experiment, Hypothesis,
+                            Journal, Run, Secrets)
 from logzero import logger
 
 from . import push_to_humio

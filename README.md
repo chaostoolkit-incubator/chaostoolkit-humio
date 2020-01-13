@@ -19,11 +19,10 @@ environment where [chaostoolkit][] already lives.
 $ pip install -U chaostoolkit-humio
 ```
 
-## Humio Dataspace & Token
+## Humio Token
 
-To use this extension, you will need two pieces of information from Humio.
-First, the dataspace which you want to send logs to. Second a [API token][token]
-for an user with permissions to that space.
+To use this extension, you will need one piece of information from Humio, the
+[API token][token] for a user.
 
 [token]: https://cloud.humio.com/docs/http-api/index.html#api-token
 
@@ -47,7 +46,7 @@ notifications:
   -
     type: plugin
     module: chaoshumio.notification
-    dataspace: my-space
+    humio_url: https://myhumio.company.com
     token: my-token
 ```
 
@@ -60,7 +59,7 @@ notifications:
   -
     type: plugin
     module: chaoshumio.notification
-    dataspace: my-space
+    humio_url: https://myhumio.company.com
     token: my-token
     events:
       - run-failed
@@ -72,7 +71,8 @@ Only sends those two events.
 ### Control
 
 To use this extension as a control over the experiment and send logs during
-the execution of the experiment, add the following payload to your experiment:
+the execution of the experiment to `https://cloud.humio.com`, add the following
+payload to your experiment:
 
 ```json
 {
@@ -81,10 +81,6 @@ the execution of the experiment, add the following payload to your experiment:
             "token": {
                 "type": "env",
                 "key": "HUMIO_INGEST_TOKEN"
-            },
-            "dataspace": {
-                "type": "env",
-                "key": "HUMIO_DATASPACE"
             }
         }
     },
@@ -101,18 +97,38 @@ the execution of the experiment, add the following payload to your experiment:
 }
 ```
 
+If you want to send logs to a different Humio URL endpoint, specify the
+`humio_url` configuration parameter. The following shows how this parameter:
+
+```json
+{
+    "secrets": {
+        "humio": {
+            "token": {
+                "type": "env",
+                "key": "HUMIO_INGEST_TOKEN"
+            }
+        }
+    },
+    "configuration": {
+        "humio_url": "https://myhumio.company.com"
+    },
+    "controls": [
+        {
+            "name": "humio-logger",
+            "provider": {
+                "type": "python",
+                "module": "chaoshumio.control",
+                "secrets": ["humio"]
+            }
+        }
+    ]
+}
+```
+
 This will ensure the results of the experiment, steady-state, method, rollbacks
-and each activity are sent to your space. The experiment itself will also be
+and each activity are sent to Humio. The experiment itself will also be
 send initially.
-
-
-## Test
-
-To run the tests for the project execute the following:
-
-```
-$ pytest
-```
 
 ## Contribute
 
@@ -129,3 +145,32 @@ into the master branch of the repository. Please, make sure you can abide by
 the rules of the DCO before submitting a PR.
 
 [dco]: https://github.com/probot/dco#how-it-works
+
+### Develop
+
+If you wish to develop on this project, make sure to install the development
+dependencies. But first, [create a virtual environment][venv] and then install
+those dependencies.
+
+[venv]: http://chaostoolkit.org/reference/usage/install/#create-a-virtual-environment
+
+```console
+$ pip install -r requirements-dev.txt -r requirements.txt 
+```
+
+Then, point your environment to this directory:
+
+```console
+$ pip install -e .
+```
+
+Now, you can edit the files and they will be automatically be seen by your
+environment, even when running from the `chaos` command locally.
+
+### Test
+
+To run the tests for the project execute the following:
+
+```
+$ pytest
+```
