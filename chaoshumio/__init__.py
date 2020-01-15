@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime, timezone
 import platform
+from datetime import datetime, timezone
 
+import requests
 from chaoslib.types import Configuration, EventPayload, Secrets
 from logzero import logger
-import requests
 
 __all__ = ["__version__", "push_to_humio"]
 __version__ = '0.4.1'
 
 
 def push_to_humio(event: EventPayload, secrets: Secrets,
-                  configuration: Configuration = None):
+                  configuration: Configuration):
     """
     Send the event payload to Humio
 
@@ -31,11 +31,8 @@ def push_to_humio(event: EventPayload, secrets: Secrets,
         logger.debug("Missing Humio token secret")
         return
 
-    humio_url = "https://cloud.humio.com"
-    if configuration:
-        configured_humio_url = configuration.get("humio_url", "").strip()
-        if configured_humio_url:
-            humio_url = configured_humio_url
+    humio_url = configuration.get(
+        "humio_url", "https://cloud.humio.com").strip()
 
     isotimestamp = datetime.fromtimestamp(
         datetime.utcnow().replace(tzinfo=timezone.utc).timestamp(),
@@ -44,6 +41,8 @@ def push_to_humio(event: EventPayload, secrets: Secrets,
     token = token.strip()
     url = "{}/api/v1/ingest/humio-structured".format(
         humio_url)
+
+    logger.debug("Humio logging being sent to {}".format(url))
 
     headers = {
         "Authorization": "Bearer {}".format(token),

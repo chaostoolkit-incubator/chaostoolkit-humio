@@ -16,7 +16,7 @@ __all__ = ["configure_control", "before_experiment_control",
 with_logging = threading.local()
 
 
-def configure_control(configuration: Configuration, secrets: Secrets):
+def configure_control(secrets: Secrets):
     """
     Enable logging to Humio if the `token` and `dataspace` are set in the
     `secrets` payload.
@@ -31,7 +31,8 @@ def configure_control(configuration: Configuration, secrets: Secrets):
     with_logging.enabled = True
 
 
-def before_experiment_control(context: Experiment, secrets: Secrets):
+def before_experiment_control(context: Experiment, secrets: Secrets,
+                              configuration: Configuration):
     """
     Send the experiment
     """
@@ -42,11 +43,11 @@ def before_experiment_control(context: Experiment, secrets: Secrets):
         "name": "before-experiment",
         "context": context,
     }
-    push_to_humio(event=event, secrets=secrets)
+    push_to_humio(event=event, secrets=secrets, configuration=configuration)
 
 
 def after_experiment_control(context: Experiment, state: Journal,
-                             secrets: Secrets):
+                             secrets: Secrets, configuration: Configuration):
     """
     Send the experiment's journal
     """
@@ -58,11 +59,11 @@ def after_experiment_control(context: Experiment, state: Journal,
         "context": context,
         "state": state
     }
-    push_to_humio(event=event, secrets=secrets)
+    push_to_humio(event=event, secrets=secrets, configuration=configuration)
 
 
 def after_hypothesis_control(context: Hypothesis, state: Dict[str, Any],
-                             secrets: Secrets):
+                             secrets: Secrets, configuration: Configuration):
     """
     Send the steady-state hypothesis's result
     """
@@ -75,11 +76,11 @@ def after_hypothesis_control(context: Hypothesis, state: Dict[str, Any],
         "state": state,
         "type": "hypothesis"
     }
-    push_to_humio(event=event, secrets=secrets)
+    push_to_humio(event=event, secrets=secrets, configuration=configuration)
 
 
 def after_method_control(context: Experiment, state: List[Run],
-                         secrets: Secrets):
+                         secrets: Secrets, configuration: Configuration):
     """
     Send the method's result
     """
@@ -92,11 +93,11 @@ def after_method_control(context: Experiment, state: List[Run],
         "state": state,
         "type": "method"
     }
-    push_to_humio(event=event, secrets=secrets)
+    push_to_humio(event=event, secrets=secrets, configuration=configuration)
 
 
 def after_rollback_control(context: Experiment, state: List[Run],
-                           secrets: Secrets):
+                           secrets: Secrets, configuration: Configuration):
     """
     Send the rollback's result
     """
@@ -109,11 +110,11 @@ def after_rollback_control(context: Experiment, state: List[Run],
         "state": state,
         "type": "rollback"
     }
-    push_to_humio(event=event, secrets=secrets)
+    push_to_humio(event=event, secrets=secrets, configuration=configuration)
 
 
 def after_activity_control(context: Activity, state: Run,
-                           secrets: Secrets):
+                           secrets: Secrets, configuration: Configuration):
     """
     Send each activity's result
     """
@@ -126,4 +127,4 @@ def after_activity_control(context: Activity, state: Run,
         "state": state,
         "type": "activity"
     }
-    push_to_humio(event=event, secrets=secrets)
+    push_to_humio(event=event, secrets=secrets, configuration=configuration)
