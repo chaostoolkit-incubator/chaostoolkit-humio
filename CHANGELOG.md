@@ -2,7 +2,9 @@
 
 ## [Unreleased][]
 
-[Unreleased]: https://github.com/chaostoolkit-incubator/chaostoolkit-humio/compare/0.4.1...HEAD
+[Unreleased]: https://github.com/chaostoolkit-incubator/chaostoolkit-humio/compare/0.4.2...HEAD
+
+## [0.4.2][] - 2020-15-01
 
 ### Added
 
