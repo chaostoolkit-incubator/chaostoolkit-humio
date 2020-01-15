@@ -38,7 +38,7 @@ def notify(settings: Dict[str, Any], event: EventPayload):
         humio_url = "https://cloud.humio.com"
 
     token = token.strip()
-    url = "{}/api/v1/ingest/humio-ingest".format(
+    url = "{}/api/v1/ingest/humio-structured".format(
         humio_url)
 
     headers = {

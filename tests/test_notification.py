@@ -1,18 +1,14 @@
 # -*- coding: utf-8 -*-
 import time
-import types
 from datetime import datetime, timezone
-from unittest.mock import MagicMock, patch
 
-import pytest
-import requests
 import requests_mock
 from chaoslib.notification import RunFlowEvent
 
 from chaoshumio.notification import notify
 
 
-def test_notify():
+def test_notify(humio_url: str):
     payload = {
         "msg": "hello"
     }
@@ -27,9 +23,9 @@ def test_notify():
     }
     with requests_mock.mock() as m:
         m.post(
-            'https://cloud.humio.com/api/v1/ingest/humio-ingest',
+            "{}/api/v1/ingest/humio-structured".format(humio_url),
             status_code=200,
-            json=[ { 
+            json=[{
                 "tags": {
                     "host": "fake-host"
                 },
@@ -39,12 +35,13 @@ def test_notify():
                         "attributes": payload
                     },
                 ]
-            } ]
+            }]
         )
 
         notify(
             {
-                "token": "my-token"
+                "token": "my-token",
+                "humio_url": humio_url
             },
             event_payload
         )
@@ -52,7 +49,7 @@ def test_notify():
         assert m.called
 
 
-def test_notify_custom_URL():
+def test_notify_default_url():
     payload = {
         "msg": "hello"
     }
@@ -65,14 +62,11 @@ def test_notify_custom_URL():
         "phase": "run",
         "payload": payload
     }
-
-    humio_url = "https://myhumio.company.com"
-
     with requests_mock.mock() as m:
         m.post(
-            "{}/api/v1/ingest/humio-ingest".format(humio_url),
+            "https://cloud.humio.com/api/v1/ingest/humio-structured",
             status_code=200,
-            json=[ { 
+            json=[{
                 "tags": {
                     "host": "fake-host"
                 },
@@ -82,13 +76,12 @@ def test_notify_custom_URL():
                         "attributes": payload
                     },
                 ]
-            } ]
+            }]
         )
 
         notify(
             {
                 "token": "my-token",
-                "humio_url": humio_url
             },
             event_payload
         )

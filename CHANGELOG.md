@@ -4,6 +4,14 @@
 
 [Unreleased]: https://github.com/chaostoolkit-incubator/chaostoolkit-humio/compare/0.4.1...HEAD
 
+### Added
+
+- More testing for secrets and configuration
+
+### Fixed
+
+- Passing of configuration through control to enable custom Humio URL domain
+
 ## [0.4.1][] - 2020-13-01
 
 ### Fixed
