@@ -8,6 +8,7 @@
 
 - A `search_query` probe to perform queries against the
   [Humio search API][searchapi]
+- Basic tolerances to validate number values returned by the search probe
 
 [searchapi]: https://docs.humio.com/api/using-the-search-api-with-humio/#query
 
