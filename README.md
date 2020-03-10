@@ -35,6 +35,77 @@ is used at any given time as they serve similar purpose but feel free to
 combine them. The control approach is deeper because it logs down to the
 activity whereas notifications are much higher level.
 
+This extension can also be used as a probe to fetch information from Humio.
+
+### Query Log Events
+
+To use this extension as a probe as part of your experiment, use it as
+follows:
+
+```json
+{
+  "configuration": {
+    "humio_url": {
+      "type": "env",
+      "key": "HUMIO_URL",
+      "default": "https://cloud.humio.com"
+    },
+    "humio_repository": {
+      "type": "env",
+      "key": "HUMIO_REPOSITORY",
+      "default": "sandbox"
+    }
+  },
+  "secrets": {
+    "humio": {
+      "token": {
+        "type": "env",
+        "key": "HUMIO_TOKEN"
+      }
+    }
+  },
+  "steady-state-hypothesis": {
+    "title": "Running experiment",
+    "probes": [
+      {
+        "name": "run-humio-search-query",
+        "type": "probe",
+        "provider": {
+          "type": "python",
+          "module": "chaoshumio.probes",
+          "func": "search_query",
+          "secrets": [
+            "humio"
+          ],
+          "arguments": {
+            "qs": "count(as=_count)",
+            "start": "24hours",
+            "end": "now"
+          }
+        },
+        "tolerance": {
+          "name": "humio-query-result-value-greater-than",
+          "type": "probe",
+          "provider": {
+            "type": "python",
+            "module": "chaoshumio.tolerances",
+            "func": "field_value_above",
+            "arguments": {
+              "field": "_count",
+              "lower": 1
+            }
+          }
+        }
+      }
+    ]
+  }
+}
+```
+
+In this example, we are using the `search_query` probe and validate it with
+a specific tolerance that can inspect the returned payload from Humio and
+ensure each value matches the required expectations.
+
 ### Notification
 
 To use this extension to push notifications, edit your

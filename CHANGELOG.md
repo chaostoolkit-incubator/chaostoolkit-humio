@@ -2,7 +2,15 @@
 
 ## [Unreleased][]
 
-[Unreleased]: https://github.com/chaostoolkit-incubator/chaostoolkit-humio/compare/0.5.0...HEAD
+[Unreleased]: https://github.com/chaostoolkit-incubator/chaostoolkit-humio/compare/0.5.1...HEAD
+
+## [0.5.1][] - 2020-10-03
+
+[0.5.1]: https://github.com/chaostoolkit-incubator/chaostoolkit-humio/compare/0.5.0...0.5.1
+
+### Changed
+
+-   Updated README with `search_query` probe information
 
 ## [0.5.0][] - 2020-10-03
 
