@@ -4,6 +4,13 @@
 
 [Unreleased]: https://github.com/chaostoolkit-incubator/chaostoolkit-humio/compare/0.4.2...HEAD
 
+### Added
+
+- A `search_query` probe to perform queries against the
+  [Humio search API][searchapi]
+
+[searchapi]: https://docs.humio.com/api/using-the-search-api-with-humio/#query
+
 ## [0.4.2][] - 2020-15-01
 
 ### Added
