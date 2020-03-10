@@ -7,7 +7,7 @@ from chaoslib.types import Configuration, EventPayload, Secrets
 from logzero import logger
 
 __all__ = ["__version__", "push_to_humio"]
-__version__ = '0.4.2'
+__version__ = '0.5.0'
 
 
 def push_to_humio(event: EventPayload, secrets: Secrets,

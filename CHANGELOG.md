@@ -2,7 +2,11 @@
 
 ## [Unreleased][]
 
-[Unreleased]: https://github.com/chaostoolkit-incubator/chaostoolkit-humio/compare/0.4.2...HEAD
+[Unreleased]: https://github.com/chaostoolkit-incubator/chaostoolkit-humio/compare/0.5.0...HEAD
+
+## [0.5.0][] - 2020-10-03
+
+[0.5.0]: https://github.com/chaostoolkit-incubator/chaostoolkit-humio/compare/0.4.2...0.5.0
 
 ### Added
 
@@ -12,7 +16,9 @@
 
 [searchapi]: https://docs.humio.com/api/using-the-search-api-with-humio/#query
 
-## [0.4.2][] - 2020-15-01
+## [0.4.2][] - 2020-01-15
+
+[0.4.2]: https://github.com/chaostoolkit-incubator/chaostoolkit-humio/compare/0.4.1...0.4.2
 
 ### Added
 
@@ -22,14 +28,18 @@
 
 - Passing of configuration through control to enable custom Humio URL domain
 
-## [0.4.1][] - 2020-13-01
+## [0.4.1][] - 2020-01-13
+
+[0.4.1]: https://github.com/chaostoolkit-incubator/chaostoolkit-humio/compare/0.4.0...0.4.1
 
 ### Fixed
 
 -   `dataspace` being checked by control on configuration
 -   URL incorrect for Humio API
 
-## [0.4.0][] - 2020-13-01
+## [0.4.0][] - 2020-01-13
+
+[0.4.0]: https://github.com/chaostoolkit-incubator/chaostoolkit-humio/compare/0.3.0...0.4.0
 
 ### Added
 
@@ -39,7 +49,7 @@
 
 -   The need to specify the `dataspace`
 
-## [0.3.0][] - 2018-12-05
+## [0.3.0][] - 2018-05-12
 
 [0.3.0]: https://github.com/chaostoolkit-incubator/chaostoolkit-humio/compare/0.2.0...0.3.0
 
@@ -52,7 +62,7 @@
 -   Add more metadata to control event
 
 
-## [0.2.0][] - 2018-12-04
+## [0.2.0][] - 2018-04-12
 
 [0.2.0]: https://github.com/chaostoolkit-incubator/chaostoolkit-humio/compare/0.1.1...0.2.0
 
