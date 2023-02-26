@@ -1,10 +1,13 @@
-from typing import Any, Dict
+from typing import Any, Optional
 
 __all__ = ["field_value_under", "field_value_above", "field_value_between"]
 
 
-def field_value_under(value: Any = None, field: str = None,
-                      upper: float = None) -> bool:
+def field_value_under(
+    value: Any = None,
+    field: Optional[str] = None,
+    upper: float = 0.0,
+) -> bool:
     """
     Validate value at the given field to be under the given upper limit.
     """
@@ -25,8 +28,11 @@ def field_value_under(value: Any = None, field: str = None,
     return True
 
 
-def field_value_above(value: Any = None, field: str = None,
-                      lower: float = None) -> bool:
+def field_value_above(
+    value: Any = None,
+    field: Optional[str] = None,
+    lower: float = 0.0,
+) -> bool:
     """
     Validate value at the given field to be above the given lower limit.
     """
@@ -47,8 +53,12 @@ def field_value_above(value: Any = None, field: str = None,
     return True
 
 
-def field_value_between(value: Any = None, field: str = None,
-                        lower: float = None, upper: float = None) -> bool:
+def field_value_between(
+    value: Any = None,
+    field: Optional[str] = None,
+    lower: float = 0.0,
+    upper: float = 0.0,
+) -> bool:
     """
     Validate value at the given field to be between the lower/upper boundaries.
     """

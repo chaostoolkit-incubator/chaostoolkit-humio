@@ -10,7 +10,7 @@ from logzero import logger
 __all__ = ["notify"]
 
 
-def notify(settings: Dict[str, Any], event: EventPayload):
+def notify(settings: Dict[str, Any], event: EventPayload) -> None:
     """
     Send a log message to the Humio ingest endpoint.
 
@@ -25,8 +25,7 @@ def notify(settings: Dict[str, Any], event: EventPayload):
     """
 
     token = settings.get("token")
-    isotimestamp = datetime.fromtimestamp(
-        event["ts"], timezone.utc).isoformat()
+    isotimestamp = datetime.fromtimestamp(event["ts"], timezone.utc).isoformat()
     humio_url = settings.get("humio_url")
 
     if not token:
@@ -38,35 +37,34 @@ def notify(settings: Dict[str, Any], event: EventPayload):
         humio_url = "https://cloud.humio.com"
 
     token = token.strip()
-    url = "{}/api/v1/ingest/humio-structured".format(
-        humio_url)
+    url = "{}/api/v1/ingest/humio-structured".format(humio_url)
 
     headers = {
         "Authorization": "Bearer {}".format(token),
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
     }
 
     host = platform.node()
-    payload = [{
-        "tags": {
-            "host": host,
-            "platform": platform.platform(),
-            "python": platform.python_version(),
-            "system": platform.system(),
-            "machine": platform.machine(),
-            "provider": "chaostoolkit",
-            "chaosengineering": "true"
-        },
-        "events": [
-            {
-                "timestamp": isotimestamp,
-                "attributes": event["payload"]
+    payload = [
+        {
+            "tags": {
+                "host": host,
+                "platform": platform.platform(),
+                "python": platform.python_version(),
+                "system": platform.system(),
+                "machine": platform.machine(),
+                "provider": "chaostoolkit",
+                "chaosengineering": "true",
             },
-        ]
-    }]
+            "events": [
+                {"timestamp": isotimestamp, "attributes": event["payload"]},
+            ],
+        }
+    ]
 
     r = requests.post(url, headers=headers, json=payload, timeout=(2, 10))
     if r.status_code > 399:
         logger.debug(
             "Failed to post to Humio with status code of {status} with"
-            " reason: {reason}".format(status=r.status_code, reason=r.text))
+            " reason: {reason}".format(status=r.status_code, reason=r.text)
+        )

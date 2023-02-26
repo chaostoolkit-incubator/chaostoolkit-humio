@@ -1,23 +1,24 @@
-from typing import Any, Dict, Union
+from typing import Any, Dict, Optional, Union
 
-from chaoslib.exceptions import ActivityFailed
-from chaoslib.types import (Activity, Configuration, Experiment, Hypothesis,
-                            Journal, Run, Secrets)
-from logzero import logger
 import requests
-
+from chaoslib.exceptions import ActivityFailed
+from chaoslib.types import Configuration, Secrets
+from logzero import logger
 
 __all__ = ["search_query"]
 BASE_HUMIO_URL = "https://cloud.humio.com"
 
 
-def search_query(qs: str, start: Union[int, str] = "24hours",
-                 end: Union[int, str] = "now",
-                 tz_offset: int = 0,
-                 params: Union[str, Dict[str, str]] = None,
-                 result_as_text: bool = False,
-                 configuration: Configuration = None,
-                 secrets: Secrets = None) -> Any:
+def search_query(
+    qs: str,
+    start: Union[int, str] = "24hours",
+    end: Union[int, str] = "now",
+    tz_offset: int = 0,
+    params: Optional[Union[str, Dict[str, str]]] = None,
+    result_as_text: Optional[bool] = False,
+    configuration: Optional[Configuration] = None,
+    secrets: Optional[Secrets] = None,
+) -> Any:
     """
     Perform a search query against the Humio API and returns its result as-is.
 
@@ -30,22 +31,22 @@ def search_query(qs: str, start: Union[int, str] = "24hours",
 
     See https://docs.humio.com/api/using-the-search-api-with-humio/#query
     """
-    token = secrets.get("token", "").strip()
+    token = (secrets or {}).get("token", "").strip()
     if not token:
         logger.debug("Missing Humio token secret")
         raise ActivityFailed(
-            "Missing the Humio token from secrets, please set one.")
+            "Missing the Humio token from secrets, please set one."
+        )
 
     configuration = configuration or {}
     repo_name = configuration.get("humio_repository", "sandbox")
     if not repo_name:
         raise ActivityFailed(
             "Missing the Humio repository name from the configuration, "
-            "please set one as `humio_repository`.")
+            "please set one as `humio_repository`."
+        )
 
-    payload = {
-        "queryString": qs
-    }
+    payload = {"queryString": qs}  # type: Dict[str, Any]
 
     if start:
         payload["start"] = start
@@ -68,17 +69,18 @@ def search_query(qs: str, start: Union[int, str] = "24hours",
     headers = {
         "Authorization": "Bearer {}".format(token),
         "Content-Type": "application/json",
-        "Accept": "text/plain" if result_as_text else "application/json"
+        "Accept": "text/plain" if result_as_text else "application/json",
     }
 
     r = requests.post(humio_url, headers=headers, json=payload)
     if r.status_code > 399:
         logger.debug(
             "Failed to query Humio with status code of {status} with"
-            " reason: {reason}".format(
-                status=r.status_code, reason=r.text))
+            " reason: {reason}".format(status=r.status_code, reason=r.text)
+        )
         raise ActivityFailed(
-            "Failed to run search query against Humio: {}".format(r.text))
+            "Failed to run search query against Humio: {}".format(r.text)
+        )
 
     if r.headers["content-type"] == "text/plain":
         return r.text

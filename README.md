@@ -150,7 +150,7 @@ payload to your experiment:
 {
     "secrets": {
         "humio": {
-            "token": {
+            "ingest_token": {
                 "type": "env",
                 "key": "HUMIO_INGEST_TOKEN"
             }
@@ -161,13 +161,15 @@ payload to your experiment:
             "name": "humio-logger",
             "provider": {
                 "type": "python",
-                "module": "chaoshumio.control",
-                "secrets": ["humio"]
+                "module": "chaoshumio.control"
             }
         }
     ]
 }
 ```
+
+You do not need to set the `secrets` property in the `provider` block. In a
+control, all secrets are passed directly to each control asking for it.
 
 If you want to send logs to a different Humio URL endpoint, specify the
 `humio_url` configuration parameter. The following shows how this parameter:
@@ -176,7 +178,7 @@ If you want to send logs to a different Humio URL endpoint, specify the
 {
     "secrets": {
         "humio": {
-            "token": {
+            "ingest_token": {
                 "type": "env",
                 "key": "HUMIO_INGEST_TOKEN"
             }
@@ -190,8 +192,7 @@ If you want to send logs to a different Humio URL endpoint, specify the
             "name": "humio-logger",
             "provider": {
                 "type": "python",
-                "module": "chaoshumio.control",
-                "secrets": ["humio"]
+                "module": "chaoshumio.control"
             }
         }
     ]

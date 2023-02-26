@@ -4,3 +4,4 @@ pytest-cov
 pytest-sugar
 pycodestyle
 requests_mock
+types-requests

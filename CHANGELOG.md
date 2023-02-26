@@ -4,6 +4,17 @@
 
 [Unreleased]: https://github.com/chaostoolkit-incubator/chaostoolkit-humio/compare/0.5.1...HEAD
 
+### Fixed
+
+-   Properly propagating the ingest token in the control interface
+
+### Changed
+
+- The control now looks for a secret named `ingest_token` so an experiment
+  can use a personal token to query at the same time as use the control
+  to push events
+- Switched to GitHub action
+
 ## [0.5.1][] - 2020-10-03
 
 [0.5.1]: https://github.com/chaostoolkit-incubator/chaostoolkit-humio/compare/0.5.0...0.5.1
