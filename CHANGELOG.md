@@ -14,6 +14,8 @@
   can use a personal token to query at the same time as use the control
   to push events
 - Switched to GitHub action
+- Switch build system to pdm and pyproject.toml, removing setup.py and
+  requirements files
 
 ## [0.5.1][] - 2020-10-03
 

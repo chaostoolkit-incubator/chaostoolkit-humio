@@ -1,3 +1,0 @@
-chaostoolkit-lib>=1.0.0rc1
-logzero
-requests

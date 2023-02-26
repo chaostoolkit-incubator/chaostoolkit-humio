@@ -1,7 +1,0 @@
-coverage
-pytest>=2.8
-pytest-cov
-pytest-sugar
-pycodestyle
-requests_mock
-types-requests

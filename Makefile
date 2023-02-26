@@ -1,12 +1,12 @@
 .PHONY: install
 install:
 	pip install --upgrade pip setuptools wheel
-	pip install -r requirements.txt
+	pip install .
 
 .PHONY: install-dev
 install-dev: install
-	pip install -r requirements-dev.txt
-	python setup.py develop
+	pip install .[dev]
+	pip install .
 
 .PHONY: build
 build:
@@ -14,15 +14,16 @@ build:
 
 .PHONY: lint
 lint:
-	flake8 chaoshumio/ tests/
-	isort --check-only --profile black chaoshumio/ tests/
+	ruff chaoshumio/ tests/
+	isort --check-only --line-length 80 --profile black chaoshumio/ tests/
 	black --check --diff --line-length=80 chaoshumio/ tests/
 	mypy chaoshumio/ tests/
 
 .PHONY: format
 format:
-	isort --profile black chaoshumio/ tests/
+	isort --line-length 80 --profile black chaoshumio/ tests/
 	black --line-length=80 chaoshumio/ tests/
+	ruff --fix chaoshumio/ tests/
 
 .PHONY: tests
 tests:

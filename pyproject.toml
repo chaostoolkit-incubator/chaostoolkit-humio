@@ -1,0 +1,68 @@
+[project]
+name = "chaostoolkit-humio"
+version = "0.5.1"
+description = "Reliably CLI"
+authors = [
+    {name = "Chaos Toolkit", email = "contact@chaostoolkit.org"},
+]
+requires-python = ">=3.10"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+dependencies = [
+    "chaostoolkit-lib>=1.33.1",
+    "requests"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: Freely Distributable",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: Implementation",
+    "Programming Language :: Python :: Implementation :: CPython",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black>=22.10.0",
+    "isort>=5.10.1",
+    "pytest>=7.2.0",
+    "coverage>=6.5.0",
+    "pytest-cov>=4.0.0",
+    "pytest-sugar>=0.9.5",
+    "types-requests",
+    "requests_mock",
+    "ruff"
+]
+
+[build-system]
+requires = ["pdm-pep517>=1.0.0"]
+build-backend = "pdm.pep517.api"
+
+[tool]
+
+[tool.setuptools.packages.find]
+where = ["."] 
+
+[tool.black]
+color = true
+line-length = 80
+
+[tool.isort]
+line_length = 80
+known_first_party = 'chaoshumio'
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+combine_as_imports = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = ["tests"]
+addopts = "-v -rxs --cov chaoshumio --cov-report term-missing:skip-covered -p no:warnings"
