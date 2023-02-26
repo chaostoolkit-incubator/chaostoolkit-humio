@@ -1,6 +1,6 @@
 [project]
 name = "chaostoolkit-humio"
-version = "0.5.1"
+version = "0.6.0"
 description = "Reliably CLI"
 authors = [
     {name = "Chaos Toolkit", email = "contact@chaostoolkit.org"},
