@@ -38,7 +38,8 @@ dev = [
     "pytest-sugar>=0.9.5",
     "types-requests",
     "requests_mock",
-    "ruff"
+    "ruff",
+    "mypy"
 ]
 
 [build-system]
