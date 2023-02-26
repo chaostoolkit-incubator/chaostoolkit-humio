@@ -1,6 +1,6 @@
-# chaostoolkit-humio
+#  Chaos Toolkit extension for the Humio platform
 
-[![Build Status](https://travis-ci.org/chaostoolkit-incubator/chaostoolkit-humio.svg?branch=master)](https://travis-ci.org/chaostoolkit-incubator/chaostoolkit-humio)
+[![Build, Test, and Lint](https://github.com/chaostoolkit-incubator/chaostoolkit-humio/actions/workflows/build.yaml/badge.svg)](https://github.com/chaostoolkit-incubator/chaostoolkit-humio/actions/workflows/build.yaml)
 [![Python versions](https://img.shields.io/pypi/pyversions/chaostoolkit-humio.svg)](https://www.python.org/)
 
 This project is an extension for the Chaos Toolkit to target [Humio][humio].
@@ -9,7 +9,7 @@ This project is an extension for the Chaos Toolkit to target [Humio][humio].
 
 ## Install
 
-This package requires Python 3.5+
+This package requires Python 3.7+
 
 To be used from your experiment, this package must be installed in the Python
 environment where [chaostoolkit][] already lives.
