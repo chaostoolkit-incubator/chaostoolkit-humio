@@ -228,7 +228,7 @@ those dependencies.
 [venv]: http://chaostoolkit.org/reference/usage/install/#create-a-virtual-environment
 
 ```console
-$ pip install -r requirements-dev.txt -r requirements.txt 
+$ pip install .[dev]
 ```
 
 Then, point your environment to this directory:
@@ -246,4 +246,14 @@ To run the tests for the project execute the following:
 
 ```
 $ pytest
+```
+
+
+### Lint
+
+Ensure your code is properly linted:
+
+```
+$ make format
+$ make lint
 ```
