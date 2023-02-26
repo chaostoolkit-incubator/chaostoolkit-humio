@@ -10,7 +10,7 @@ install-dev: install
 
 .PHONY: build
 build:
-	python setup.py build
+	python -m build
 
 .PHONY: lint
 lint:
