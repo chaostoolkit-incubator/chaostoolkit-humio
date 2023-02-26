@@ -5,7 +5,7 @@ description = "Reliably CLI"
 authors = [
     {name = "Chaos Toolkit", email = "contact@chaostoolkit.org"},
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.7"
 readme = "README.md"
 license = {text = "Apache-2.0"}
 dependencies = [
